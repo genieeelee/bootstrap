@@ -978,7 +978,7 @@ Validation styles are available for the following form controls and components:
 
 {% capture callout %}
 ##### Input group validation
-Input groups have difficulty with validation styles, unfortunately. Our recommendation is to place feedback messages as sibling elements of the `.input-group` that has `.is-{valid|invalid}`. Placing feedback messages within input groups breaks the `border-radius`. [See this comment for a workaround](https://github.com/twbs/bootstrap/issues/25110#issuecomment-586565165).
+Input groups have difficulty with validation styles, unfortunately. Our recommendation is to place feedback messages as sibling elements of the `.input-group` that has `.is-{valid|invalid}`. Placing feedback messages within input groups breaks the `border-radius`. [See this workaround](#input-group-validation-workaround).
 {% endcapture %}
 {% include callout.html content=callout type="warning" %}
 
@@ -1152,6 +1152,46 @@ $form-validation-states: map-merge(
   @include form-validation-state($state, map-get($data, color), map-get($data, icon));
 }
 {% endhighlight %}
+
+### Input group validation workaround
+
+When you are using a medium size input group and don't customize the default border radius values, add `.rounded-right` to the missing border radius elements:
+
+{% capture example %}
+<div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">@</span>
+  </div>
+  <input type="text" class="form-control rounded-right" required>
+  <div class="invalid-feedback">
+    Please choose a username.
+  </div>
+</div>
+{% endcapture %}
+{% include example.html content=example %}
+
+When you are using a small or large input-group or customizing the default border radius values, add custom CSS to the missing border radius elements:
+
+{% capture example %}
+<style>
+  /* Change values to match the radius of your form control */
+  .fix-rounded-right {
+    border-top-right-radius: .2rem !important;
+    border-bottom-right-radius: .2rem !important;
+  }
+</style>
+
+<div class="input-group input-group-sm">
+  <div class="input-group-prepend">
+    <span class="input-group-text">@</span>
+  </div>
+  <input type="text" class="form-control fix-rounded-right" required>
+  <div class="invalid-feedback">
+    Please choose a username.
+  </div>
+</div>
+{% endcapture %}
+{% include example.html content=example %}
 
 ## Custom forms
 
